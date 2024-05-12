@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNewsState, useNewsDispatch } from '../../context/news/context';
-import { fetchNewsArticles } from '../../context/news/actions';
+import { fetchArticles } from '../../context/news/actions';
 import { useSportsState, useSportsDispatch } from '../../context/sports/context';
 import { fetchSports } from '../../context/sports/actions';
 import { API_ENDPOINT } from '../../config/constants';
@@ -20,7 +20,7 @@ const SportTeamFilter: React.FC = () => {
   const [teams, setTeams] = useState<any[]>([]);
 
   useEffect(() => {
-    fetchNewsArticles(newsDispatch);
+    fetchArticles(newsDispatch);
     fetchSports(sportsDispatch);
   }, [newsDispatch, sportsDispatch]);
 
@@ -57,7 +57,7 @@ const SportTeamFilter: React.FC = () => {
   };
 
   return (
-    <div className="p-5 border border-gray-100 shadow-sm rounded-md w-1/4 mr-0 ml-2 mb-10 px-0 end-4 absolute">
+    <div className="p-5 border border-gray-100 shadow-sm rounded-md w-1/4 mr-0  mb-60 px-0 end-4 absolute">
       {/* Options box on the right */}
       <h1 style={{ color: "black" }} className="mb-4 mt-0 font-semibold">
         Favourite sports

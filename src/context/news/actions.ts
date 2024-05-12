@@ -9,7 +9,7 @@ export const fetchArticles = async (dispatch: React.Dispatch<NewsActions>) => {
       headers: { 'Content-Type': 'application/json' },
     });
     const data = await response.json();
-    dispatch({ type: 'FETCH_NEWS_SUCCESS', payload: data.articles });
+    dispatch({ type: 'FETCH_NEWS_SUCCESS', payload: data});
   } catch (error) {
     console.log('Error fetching articles:', error);
     dispatch({ type: 'FETCH_NEWS_FAILURE', payload: 'Unable to load articles' });

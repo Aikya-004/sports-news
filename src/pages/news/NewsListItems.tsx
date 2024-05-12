@@ -13,7 +13,7 @@ const NewsListItems: React.FC = () => {
 
   const { articles, isLoading, isError, errorMessage } = newsState;
   const { sports } = sportsState;
-  const isAuthenticated = !!localStorage.getItem('authToken');
+  // const isAuthenticated = !!localStorage.getItem('authToken');
 
   const [selectedSport, setSelectedSport] = useState<string | null>('');
   const [isScrolling, setScrolling] = useState(false);
@@ -59,7 +59,7 @@ const NewsListItems: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-3/4 overflow-y-auto" style={{ maxHeight: 'calc(120vh - 200px)' }}>
+    <div className="w-3/4 overflow-y-auto mr-10" style={{ maxHeight: 'calc(120vh - 200px)' }}>
       <div className={`sticky top-0 mb-2 bg-white z-10 ${isScrolling ? 'shadow-md' : ''}`}>
         <div className="flex space-x-3 " style={{ color: 'black' }}>
           <button className="py-2 px-4 rounded-full bg-gray-100" onClick={() => setSelectedSport('Trending')}>

@@ -1,5 +1,5 @@
 /* eslint-disable no-empty-pattern */
-import {useState,useContext,Fragment } from 'react'
+import {useState,useContext,Fragment,useEffect } from 'react'
 import { Disclosure, Menu, Transition,Switch } from '@headlessui/react'
 import { UserCircleIcon } from '@heroicons/react/24/outline'
 import Logo from '../../assets/images/logo.png';
@@ -8,7 +8,7 @@ import { ThemeContext } from "../../context/theme";
 import React from 'react'
 // import { Switch } from 'react-router-dom'
 
-const userNavigation = [
+let userNavigation = [
   { name: 'Sign in', href: '/signin' },
   { name: 'Sign up', href: '/signup' },
 ]
@@ -19,6 +19,18 @@ const Appbar = () => {
     const { theme, setTheme } = useContext(ThemeContext)
     const [enabled, setEnabled] = useState(theme === 'dark')
     const { pathname } = useLocation()
+    const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('authToken'));
+
+    useEffect(() => {
+      setIsAuthenticated(!!localStorage.getItem('authToken'));
+    }, []);
+  
+    if (isAuthenticated) {
+      userNavigation = [
+        { name: 'Profile', href: '#' },
+        { name: 'Sign out', href: '/logout' }
+      ];
+    }
     const toggleTheme = () => {
         let newTheme = ''
         if (theme === 'light') {

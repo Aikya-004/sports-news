@@ -109,7 +109,7 @@ const MatchListItems: React.FC = () => {
   }
 
   return (
-    <div className="p-5 border border-gray-100 shadow-sm rounded-md max-w-screen-xl mx-auto mt-0 mb-4 relative">
+    <div className="p-5 border border-gray-100 shadow-sm rounded-md max-w-screen-xxl mx-auto mt-0 mb-4 mr-64 relative">
       <h2 className="text-2xl font-semibold text-blue-800 mb-4 mr-10">Live Matches</h2>
         <button
     className="w-8 h-8 p-1 text-white rounded-full absolute top-5 right-0 mr-24 z-10 transform transition-transform"
