@@ -55,13 +55,27 @@ import { RouterProvider } from "react-router-dom";
 import { ThemeContext } from "./context/theme";
 
 import router from "./routes"
+import { MatchContextProvider } from "./context/matches/context";
+import { NewsContextProvider } from "./context/news/context";
+import { SportsProvider } from "./context/sports/context";
+import { TeamsProvider } from "./context/teams/context";
 
 const App = () => {
   const { theme } = useContext(ThemeContext);
   return (
     <div  className={`h-screen w-full mx-auto py-2 ${theme === "dark" ? "dark" : ""}`}>
-
-      <RouterProvider router={router} />
+ <MatchContextProvider>
+        <NewsContextProvider>
+          <SportsProvider>
+          <TeamsProvider>
+     
+          <RouterProvider router={router} />
+         
+      </TeamsProvider>
+          </SportsProvider>
+        </NewsContextProvider>
+      </MatchContextProvider>
+      
     </div>
   );
 }

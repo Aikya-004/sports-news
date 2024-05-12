@@ -1,11 +1,15 @@
 import React from 'react';
 import MatchListItems from './MatchListItems';
+// import SportTeamFilter from './SportTeamFilter'
+import { Outlet } from 'react-router-dom';
+import NewsListItems from '../news/NewsListItems'; 
 const Dashboard: React.FC = () => {
   return (
     <div>
-      <h1>Dashboard</h1>
-      <p>Welcome to the dashboard!</p>
+      <Outlet />
      <MatchListItems/>
+     <NewsListItems/>
+     {/* <SportTeamFilter/> */}
     </div>
   );
 };

@@ -1,12 +1,18 @@
-import React from "react";
-import { useMatchState } from "../../context/matches/context";
-import { Link } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useMatchState, useMatchDispatch } from '../../context/matches/context';
+import { fetchNewMatches } from '../../context/matches/actions';
 
 const MatchListItems: React.FC = () => {
-  const state: any = useMatchState();
-  const { matches, isLoading, isError, errorMessage } = state;
+  const matchesState = useMatchState();
+  const matchesDispatch = useMatchDispatch();
+  const { matches, isLoading, isError, errorMessage } = matchesState;
+  console.log(matches)
 
-  if (isLoading) {
+  useEffect(() => {
+    fetchNewMatches(matchesDispatch);
+  }, [matchesDispatch]);
+
+  if (matches.length === 0 && isLoading) {
     return <span>Loading...</span>;
   }
 
@@ -15,27 +21,24 @@ const MatchListItems: React.FC = () => {
   }
 
   return (
-    <>
+    <div className='w-3/4'>
       {matches.map((match: any) => (
-        <Link
-          key={match.id}
-          to={`/dashboard/match/${match.id}`}
-          className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-        >
-          <h5 className="mb-2 text-xl font-medium tracking-tight text-gray-900 dark:text-white">
-            {match.name}
-          </h5>
-          <p className="mb-2 text-gray-600 dark:text-gray-300">Location: {match.location}</p>
-          <p className="mb-2 text-gray-600 dark:text-gray-300">Ends at: {new Date(match.endsAt).toISOString()}</p>
-          <div className="flex items-center">
-            {/* Render thumbnail image for each team */}
-            {match.teams.map((team: any) => (
-              <img key={team.id} src={team.thumbnail} alt={team.name} className="w-12 h-12 rounded-full mr-2" />
-            ))}
+        <div key={match.id} className="w-full flex items-center mb-4 border border-gray-500 rounded p-2">
+          <div className="w-3/4">
+            <h2 className="text-xl font-bold text-gray-800 mb-2">{match.name}</h2>
+            <p className="text-gray-600">{match.location}</p>
+            <p className="text-left text-gray-500 block mt-0">{new Date(match.endsAt).toLocaleDateString()}</p>
+            <a href={`/account/matches/${match.id}`} className="text-center text-blue-500 block mt-0">Read More</a>
           </div>
-        </Link>
+          <div className="w-1/4">
+            {match.teams.map((team: any) => (
+              <p key={team.id} className="text-gray-500 text-center">{team.name}</p>
+            ))}
+            <img src={match.thumbnail} alt={match.name} className="w-full" />
+          </div>
+        </div>
       ))}
-    </>
+    </div>
   );
 };
 

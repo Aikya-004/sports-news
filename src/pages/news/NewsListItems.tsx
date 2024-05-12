@@ -1,10 +1,8 @@
-
 import React, { useEffect, useState } from 'react';
 import { useNewsState, useNewsDispatch } from '../../context/news/context';
 import { fetchArticles } from '../../context/news/actions';
 import { useSportsState, useSportsDispatch } from '../../context/sports/context';
 import { fetchSports } from '../../context/sports/actions';
-import { usePreferencesState } from '../../context/preferences/context';
 import { Link } from 'react-router-dom';
 
 const NewsListItems: React.FC = () => {
@@ -12,12 +10,10 @@ const NewsListItems: React.FC = () => {
   const newsDispatch = useNewsDispatch();
   const sportsState = useSportsState();
   const sportsDispatch = useSportsDispatch();
-  const preferencesState: any = usePreferencesState();
 
   const { articles, isLoading, isError, errorMessage } = newsState;
-  let { sports } = sportsState;
+  const { sports } = sportsState;
   const isAuthenticated = !!localStorage.getItem('authToken');
-  const { preferences } = preferencesState;
 
   const [selectedSport, setSelectedSport] = useState<string | null>('');
   const [isScrolling, setScrolling] = useState(false);
@@ -26,13 +22,6 @@ const NewsListItems: React.FC = () => {
     fetchArticles(newsDispatch);
     fetchSports(sportsDispatch);
   }, [newsDispatch, sportsDispatch]);
-
-  if (isAuthenticated && preferences && (preferences.sports || preferences.teams)) {
-    if(preferences.sports.length >0 ){
-      sports = sports.filter((sport: any) => preferences.sports.includes(sport.name));
-    }
-    
-  }
 
   const filterArticles = () => {
     if (selectedSport === '') {

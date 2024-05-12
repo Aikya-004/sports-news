@@ -97,6 +97,7 @@ import Signup from "../pages/signup";
 import Logout from "../pages/logout";
 import MatchDetails from "../pages/matches/MatchDetails";
 import Matches from "../pages/matches";
+import NewsDetails from "../pages/news/NewsDetails";
 
 const router = createBrowserRouter([
   {
@@ -131,6 +132,10 @@ const router = createBrowserRouter([
           {
             path: ":matchId",
             element: <MatchDetails />,
+          },
+          {
+            path: "articles/:articleId",
+            element:<NewsDetails />
           },
         ],
       },

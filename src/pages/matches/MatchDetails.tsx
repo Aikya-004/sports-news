@@ -53,12 +53,12 @@ const MatchDetails: React.FC = () => {
             <h2 className="nws-dtl-hdln font-bold">{selectedMatch.name}</h2>
             <p className="text-sm text-gray-500 mt-2">{selectedMatch.location}</p>
             <p className="text-sm mt-2">Starts At: {formatDate(selectedMatch.startsAt)}, {formatTime(selectedMatch.startsAt)}</p>
-<p className="text-sm mt-2">Ends At: {formatDate(selectedMatch.endsAt)}, {formatTime(selectedMatch.endsAt)}</p>
+            <p className="text-sm mt-2">Ends At: {formatDate(selectedMatch.endsAt)}, {formatTime(selectedMatch.endsAt)}</p>
             <p className="text-sm mt-2">Sport: {selectedMatch.sportName}</p>
             <p className="text-sm mt-2">Teams: {selectedMatch.teams.map((team) => team.name).join(' vs ')}</p>
             <p className="text-sm mt-4 text-gray-500">Score:</p>
             <ul className="text-sm">
-              {Object.entries(selectedMatch.score).map(([team, score]) => (
+              {selectedMatch && selectedMatch.score && Object.entries(selectedMatch.score).map(([team, score]) => (
                 <li key={team}>{team}: {score}</li>
               ))}
             </ul>
