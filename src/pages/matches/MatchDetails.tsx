@@ -12,16 +12,22 @@ const MatchDetails: React.FC = () => {
 
   useEffect(() => {
     if (matchId) {
-      fetchMatchById(matchDispatch, parseInt(matchId));
+      console.log("Fetching match with ID:", matchId);
+      fetchMatchById(matchDispatch, parseInt(matchId))
+        .then(() => console.log("Match fetched successfully"))
+        .catch(error => console.error("Error fetching match:", error));
     }
   }, [matchId, matchDispatch]);
 
   const { selectedMatch } = matchState;
 
+  console.log("Selected Match:", selectedMatch);
+
   const [isOpen, setIsOpen] = useState(true);
 
   if (!selectedMatch) {
-    return <div>No match selected or not found.</div>
+    console.log("No match selected or not found.");
+    return <div>No match selected or not found.</div>;
   }
 
   const closeDialogAndNavigate = () => {

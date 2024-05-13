@@ -86,11 +86,11 @@
  
 
 // export default router;
-import React from "react";
+// import React from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import AccountLayout from "../layout/account";
-import ProtectedRoute from "./ProtectedRoute";
+// import ProtectedRoute from "./ProtectedRoute";
 import Dashboard from "../pages/dashboard"
 import Signin from "../pages/signin";
 import Signup from "../pages/signup";
@@ -98,6 +98,7 @@ import Logout from "../pages/logout";
 import MatchDetails from "../pages/matches/MatchDetails";
 import Matches from "../pages/matches";
 import NewsDetails from "../pages/news/NewsDetails";
+import Notfound from "../pages/Notfound";
 
 const router = createBrowserRouter([
   {
@@ -107,6 +108,14 @@ const router = createBrowserRouter([
   {
     path: "/signin",
     element: <Signin />,
+  },
+  {
+    path: "/notfound",
+    element: <Notfound />,
+  },
+  {
+    path: "*",
+    element: <Navigate to="/notfound" replace />,
   },
   {
     path: "/signup",

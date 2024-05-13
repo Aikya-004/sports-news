@@ -17,7 +17,7 @@ export interface News {
     errorMessage: string;
   }
   
-  export const initialNewsState: NewsState = {
+  export const initialState: NewsState = {
     articles: [],
     selectedArticle: null,
     isLoading: false,
@@ -29,24 +29,22 @@ export interface News {
     | { type: 'FETCH_NEWS_REQUEST' }
     | { type: 'FETCH_NEWS_SUCCESS'; payload: News[] }
     | { type: 'FETCH_NEWS_FAILURE'; payload: string }
-    | { type: 'SELECT_ARTICLE'; payload: News }
-    | { type: 'DESELECT_ARTICLE' };
+    | { type: 'SELECT_ARTICLE'; payload: News | null }
+    
   
-  export const newsReducer = (state: NewsState = initialNewsState, action: NewsActions): NewsState => {
+  export const newsReducer = (state: NewsState = initialState, action: NewsActions): NewsState => {
     switch (action.type) {
       case 'FETCH_NEWS_REQUEST':
         return {
           ...state,
           isLoading: true,
-          isError: false,
-          errorMessage: '',
+        
         };
       case 'FETCH_NEWS_SUCCESS':
         return {
           ...state,
           isLoading: false,
-          isError: false,
-          errorMessage: '',
+         
           articles: action.payload,
         };
       case 'FETCH_NEWS_FAILURE':
@@ -61,11 +59,7 @@ export interface News {
           ...state,
           selectedArticle: action.payload,
         };
-      case 'DESELECT_ARTICLE':
-        return {
-          ...state,
-          selectedArticle: null,
-        };
+      
       default:
         return state;
     }

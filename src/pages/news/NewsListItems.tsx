@@ -68,7 +68,7 @@ const NewsListItems: React.FC = () => {
           {sports.map((sport: any) => (
             <button
               key={sport.id}
-              className={`py-2 px-4 rounded-full bg-gray-100 ${selectedSport === sport.name ? 'bg-blue-500 text-white' : ''}`}
+              className={`py-2 px-4 rounded-full bg-gray-100 ${selectedSport === sport.name ? 'bg-blue-700 text-white' : ''}`}
               onClick={() => setSelectedSport(sport.name)}
             >
               {sport.name}

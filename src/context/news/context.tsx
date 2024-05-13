@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import { NewsState, NewsActions, newsReducer, initialNewsState } from './reducer';
+import { NewsState, NewsActions, newsReducer, initialState } from './reducer';
 
 // Define the context for news state
 const NewsStateContext = createContext<NewsState | undefined>(undefined);
@@ -15,7 +15,7 @@ export const useNewsDispatch = () => useContext(NewsDispatchContext);
 // Define the NewsContextProvider component
 export const NewsContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   // Use reducer to manage the news state
-  const [state, dispatch] = useReducer(newsReducer, initialNewsState);
+  const [state, dispatch] = useReducer(newsReducer, initialState);
 
   return (
     <NewsStateContext.Provider value={state}>

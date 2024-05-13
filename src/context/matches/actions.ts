@@ -26,7 +26,7 @@ export const fetchMatchById = async (dispatch: any, matchId: any) => {
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         });
         const data = await response.json();
-        dispatch({ type: 'SELECT_MATCH', payload: data });
+        dispatch({ type: 'SELECT_MATCH', payload: data.matches });
     } catch (error) {
         console.log('Error fetching matches:', error);
         dispatch({ type: 'FETCH_MATCHES_FAILURE', payload: 'Unable to load matches' });

@@ -4,6 +4,7 @@ import { useNewsDispatch, useNewsState } from '../../context/news/context';
 import { fetchArticleById } from '../../context/news/actions';
 import { Dialog } from '@headlessui/react';
 
+
 const NewsDetails: React.FC = () => {
   const newsState = useNewsState();
   const newsDispatch = useNewsDispatch();
@@ -11,30 +12,18 @@ const NewsDetails: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchArticle = async () => {
-      if (articleId) {
-        try {
-          await fetchArticleById(newsDispatch, parseInt(articleId));
-        } catch (error) {
-          console.error('Error fetching article:', error);
-        }
-      }
-    };
-
-    fetchArticle();
+    if (articleId) {
+      fetchArticleById(newsDispatch, parseInt(articleId));
+    }
   }, [articleId, newsDispatch]);
 
-  const { selectedArticle, loading } = newsState;
+  const { selectedArticle } = newsState;
   const [isOpen, setIsOpen] = useState(true);
 
   const closeDialogAndNavigate = () => {
     setIsOpen(false);
     navigate('/account/dashboard'); // Navigate to /account/dashboard
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   if (!selectedArticle) {
     return <div>Article not found.</div>;
@@ -54,6 +43,7 @@ const NewsDetails: React.FC = () => {
   };
 
   return (
+    <div>
     <Dialog open={isOpen} onClose={closeDialogAndNavigate} className="fixed inset-0 z-10 overflow-y-auto">
       <div className="min-h-screen px-4 text-center">
         <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
@@ -65,7 +55,7 @@ const NewsDetails: React.FC = () => {
           <h2 className="nws-dtl-hdln font-bold">{selectedArticle.title}</h2>
           <p className="text-sm text-gray-500 mt-2">{formatCustomDate(selectedArticle.date)}</p>
           <p className="text-sm mt-2">Sport: {selectedArticle.sport.name}</p>
-          <p className="text-sm mt-2">Teams: {selectedArticle.teams.map((team: { name: any; }) => team.name).join(' vs ')}</p>
+          <p className="text-sm mt-2"> Teams: {selectedArticle.teams.map((team) => team.name).join(' vs ')}</p>
           <p className="text-sm mt-4 text-gray-500">{selectedArticle.summary}</p>
           <p className="text-sm mt-4">{selectedArticle.content}</p>
           <div className="mt-4">
@@ -80,6 +70,7 @@ const NewsDetails: React.FC = () => {
         </div>
       </div>
     </Dialog>
+    </div>
   );
 };
 
