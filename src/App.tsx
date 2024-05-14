@@ -52,7 +52,7 @@
 
 import  { useContext } from "react";
 import { RouterProvider } from "react-router-dom";
-import { ThemeContext,ThemeProvider } from "./context/theme";
+import { ThemeContext } from "./context/theme";
 
 import router from "./routes"
 import { MatchContextProvider } from "./context/matches/context";
