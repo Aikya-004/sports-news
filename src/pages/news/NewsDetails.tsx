@@ -46,7 +46,7 @@ const NewsDetails: React.FC = () => {
     <div>
     <Dialog open={isOpen} onClose={closeDialogAndNavigate} className="fixed inset-0 z-10 overflow-y-auto">
       <div className="min-h-screen px-4 text-center">
-        <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+      <Dialog.Panel className="fixed inset-0 bg-black opacity-30" />
         <span className="inline-block h-screen align-middle" aria-hidden="true">
           &#8203;
         </span>
