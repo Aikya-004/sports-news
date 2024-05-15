@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable prefer-const */
 import React, { useEffect, useState } from 'react';
 import { useMatchState, useMatchDispatch } from '../../context/matches/context';
 import { fetchNewMatches } from '../../context/matches/actions';
@@ -49,10 +51,10 @@ const MatchListItems: React.FC = () => {
 
   useEffect(() => {
     const fetchScoresForRunningMatches = async () => {
-      const runningMatches = matches.filter((match) => match.isRunning);
+      const runningMatches = matches.filter((match: { isRunning: any; }) => match.isRunning);
 
       const matchesWithScores = await Promise.all(
-        runningMatches.map(async (match) => {
+        runningMatches.map(async (match: { id: number; score: any; }) => {
           const scores = await fetchScoresForMatch(match.id);
           if (scores !== null) {
             match.score = scores.score;
