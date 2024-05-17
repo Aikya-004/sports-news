@@ -1,6 +1,6 @@
-import React from "react";
-import MatchList from "./MatchList";
-
+import React, { Suspense } from "react";
+const MatchList = React.lazy(() => import("./MatchList"));
+import ErrorBoundary from "../../components/ErrorBoundary";
 
 const Matches = () => {
   return (
@@ -10,8 +10,11 @@ const Matches = () => {
           Matches
         </h2>
       </div>
+      <ErrorBoundary>
+        <Suspense fallback={<div className="suspense-loading">Loading Matches...</div>}>
           <MatchList />
-       
+        </Suspense>
+      </ErrorBoundary>
     </>
   );
 };
