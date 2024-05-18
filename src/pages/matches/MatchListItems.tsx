@@ -10,8 +10,10 @@ const MatchListItems: React.FC = () => {
 
   useEffect(() => {
     fetchNewMatches(matchesDispatch);
-  }, [matchesDispatch]);
+  }, []);
 
+  console.log("Matchdispatch",matchesDispatch)
+  console.log("MatchState",matchesState)
   if (matches.length === 0 && isLoading) {
     return <span>Loading...</span>;
   }

@@ -4,41 +4,47 @@ import { fetchArticles } from '../../context/news/actions';
 import { useSportsState, useSportsDispatch } from '../../context/sports/context';
 import { fetchSports } from '../../context/sports/actions';
 import { Link } from 'react-router-dom';
+import { News, NewsState } from '../../context/news/reducer';
+import { SportsState, Sport } from '../../context/sports/reducer';
 
 const NewsListItems: React.FC = () => {
-  const newsState = useNewsState();
+  const newsState: NewsState = useNewsState();
   const newsDispatch = useNewsDispatch();
-  const sportsState = useSportsState();
+  const sportsState: SportsState = useSportsState();
   const sportsDispatch = useSportsDispatch();
-
-  const { articles, isLoading, isError, errorMessage } = newsState;
-  const { sports } = sportsState;
-  // const isAuthenticated = !!localStorage.getItem('authToken');
-
-  const [selectedSport, setSelectedSport] = useState<string | null>('');
-  const [isScrolling, setScrolling] = useState(false);
 
   useEffect(() => {
     fetchArticles(newsDispatch);
     fetchSports(sportsDispatch);
   }, [newsDispatch, sportsDispatch]);
 
+  if (!newsState || !sportsState) {
+    return <div>Loading...</div>; // Handle loading state
+  }
+
+  const { articles, isLoading, isError, errorMessage } = newsState;
+  const { sports } = sportsState;
+
+  const [selectedSport, setSelectedSport] = useState<string | null>('');
+  const [isScrolling, setScrolling] = useState(false);
+
   const filterArticles = () => {
+    if (!articles) return [];
     if (selectedSport === '') {
       return articles;
     }
     if (selectedSport === 'Trending') {
-      const latestArticles: any[] = [];
-      sports.forEach((sport: any) => {
-        const sportArticles = articles.filter((article: any) => article.sport.name === sport.name);
+      const latestArticles: News[] = [];
+      sports.forEach((sport: Sport) => {
+        const sportArticles = articles.filter((article: News) => article.sport.name === sport.name);
         if (sportArticles.length > 0) {
-          sportArticles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+          sportArticles.sort((a: News, b: News) => new Date(b.date).getTime() - new Date(a.date).getTime());
           latestArticles.push(sportArticles[0]);
         }
       });
       return latestArticles.slice(0, 7);
     }
-    return articles.filter((article: any) => article.sport.name === selectedSport);
+    return articles.filter((article: News) => article.sport.name === selectedSport);
   };
 
   const filteredArticles = filterArticles();
@@ -65,7 +71,7 @@ const NewsListItems: React.FC = () => {
           <button className="py-2 px-4 rounded-full bg-gray-100" onClick={() => setSelectedSport('Trending')}>
             TRENDING
           </button>
-          {sports.map((sport: any) => (
+          {sports.map((sport: Sport) => (
             <button
               key={sport.id}
               className={`py-2 px-4 rounded-full bg-gray-100 ${selectedSport === sport.name ? 'bg-blue-700 text-white' : ''}`}
@@ -81,8 +87,8 @@ const NewsListItems: React.FC = () => {
       ) : isError ? (
         <span>{errorMessage}</span>
       ) : (
-        filteredArticles.map((article: any) => (
-          <div key={article.id} className="w-full flex items-center mb-4  border-4 border-black-400 rounded-xl p-4">
+        filteredArticles.map((article: News) => (
+          <div key={article.id} className="w-full flex items-center mb-4 border-4 border-black-400 rounded-xl p-4">
             <div className="w-3/4">
               <h2 className="text-xl font-bold text-gray-800 mb-2">{article.title}</h2>
               <p className="text-gray-600">{article.summary}</p>

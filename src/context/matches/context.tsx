@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useReducer } from "react";
 import { reducer, initialState, MatchActions, MatchState } from "./reducer";
 const MatchContext = createContext<MatchState | undefined>(undefined);
+
   // Define useMatchState custom hook
   export const useMatchState = () => useContext(MatchContext)
 const MatchDispatchContext = createContext<React.Dispatch<MatchActions> | undefined>(
