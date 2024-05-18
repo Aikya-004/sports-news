@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { useNewsState, useNewsDispatch } from '../../context/news/context';
 import { fetchArticles } from '../../context/news/actions';
@@ -8,13 +8,15 @@ import { API_ENDPOINT } from '../../config/constants';
 import { Link } from 'react-router-dom';
 
 const SportTeamFilter: React.FC = () => {
-  const isAuthenticated = !!localStorage.getItem('authToken')
+  // const isAuthenticated = !!localStorage.getItem('authToken');
   const newsState = useNewsState();
   const newsDispatch = useNewsDispatch();
   const sportsState = useSportsState();
   const sportsDispatch = useSportsDispatch();
-  const { articles, isLoading, isError, errorMessage } = newsState;
-  const { sports } = sportsState;
+
+  // Conditional destructuring with default values
+  const { articles = [], isLoading = false, isError = false, errorMessage = '' } = newsState || {};
+  const { sports = [] } = sportsState || {};
 
   const [selectedSport, setSelectedSport] = useState<string>('');
   const [selectedTeam, setSelectedTeam] = useState<string>('');
@@ -58,7 +60,7 @@ const SportTeamFilter: React.FC = () => {
   };
 
   return (
-    <div className="p-5  border border-gray-100 shadow-sm rounded-md w-1/4 mr-0 mt-10  mb-60 px-0 end-4 absolute">
+    <div className="p-5 border border-gray-100 shadow-sm rounded-md w-1/4 mr-0 mt-10 mb-60 px-0 end-4 absolute">
       {/* Options box on the right */}
       <h1 style={{ color: "black" }} className="mb-4 mt-0 font-semibold">
         Favourite sports
@@ -104,16 +106,15 @@ const SportTeamFilter: React.FC = () => {
               className="w-full h-100 flex items-center mb-4 mr-10 right-0.5 border-4 border-black-400 rounded-xl p-4"
             >
               <div className="w-4/4">
-              <div className="flex flex-center">
-                <img src={article.thumbnail} alt={article.title} className="w-full" />
-              </div>
+                <div className="flex flex-center">
+                  <img src={article.thumbnail} alt={article.title} className="w-full" />
+                </div>
                 <h2 className="text-xl font-bold text-gray-800 mb-2">{article.title}</h2>
                 <p className="text-gray-600">{article.summary}</p>
                 <Link to={`/account/dashboard/articles/${article.id}`} className="text-center text-blue-500 block mt-0">
                   Read more
                 </Link>
               </div>
-              
             </div>
           ))
         )}

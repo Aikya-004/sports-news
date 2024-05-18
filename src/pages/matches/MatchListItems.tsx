@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from 'react';
 import { useMatchState, useMatchDispatch } from '../../context/matches/context';
 import { fetchNewMatches } from '../../context/matches/actions';
@@ -5,15 +6,18 @@ import { fetchNewMatches } from '../../context/matches/actions';
 const MatchListItems: React.FC = () => {
   const matchesState = useMatchState();
   const matchesDispatch = useMatchDispatch();
-  const { matches, isLoading, isError, errorMessage } = matchesState;
-  console.log(matches)
+
+  // Conditional destructuring with default values
+  const { matches = [], isLoading = false, isError = false, errorMessage = '' } = matchesState || {};
+  console.log(matches);
 
   useEffect(() => {
     fetchNewMatches(matchesDispatch);
-  }, []);
+  }, [matchesDispatch]);
 
-  console.log("Matchdispatch",matchesDispatch)
-  console.log("MatchState",matchesState)
+  console.log("Matchdispatch", matchesDispatch);
+  console.log("MatchState", matchesState);
+
   if (matches.length === 0 && isLoading) {
     return <span>Loading...</span>;
   }

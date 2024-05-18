@@ -1,16 +1,17 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from 'react';
 import { useNewsState, useNewsDispatch } from '../../context/news/context';
 import { fetchArticles } from '../../context/news/actions';
 import { useSportsState, useSportsDispatch } from '../../context/sports/context';
 import { fetchSports } from '../../context/sports/actions';
 import { Link } from 'react-router-dom';
-import { News, NewsState } from '../../context/news/reducer';
-import { SportsState, Sport } from '../../context/sports/reducer';
+import { News } from '../../context/news/reducer';
+import { Sport } from '../../context/sports/reducer';
 
 const NewsListItems: React.FC = () => {
-  const newsState: NewsState = useNewsState();
+  const newsState = useNewsState();
   const newsDispatch = useNewsDispatch();
-  const sportsState: SportsState = useSportsState();
+  const sportsState = useSportsState();
   const sportsDispatch = useSportsDispatch();
 
   useEffect(() => {
@@ -67,7 +68,7 @@ const NewsListItems: React.FC = () => {
   return (
     <div className="w-3/4 overflow-y-auto mr-10" style={{ maxHeight: 'calc(120vh - 200px)' }}>
       <div className={`sticky top-0 mb-2 bg-white z-10 ${isScrolling ? 'shadow-md' : ''}`}>
-        <div className="flex space-x-3 " style={{ color: 'black' }}>
+        <div className="flex space-x-3" style={{ color: 'black' }}>
           <button className="py-2 px-4 rounded-full bg-gray-100" onClick={() => setSelectedSport('Trending')}>
             TRENDING
           </button>

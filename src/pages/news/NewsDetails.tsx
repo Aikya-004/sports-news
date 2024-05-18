@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useNewsDispatch, useNewsState } from '../../context/news/context';
@@ -55,7 +56,7 @@ const NewsDetails: React.FC = () => {
           <h2 className="nws-dtl-hdln font-bold">{selectedArticle.title}</h2>
           <p className="text-sm text-gray-500 mt-2">{formatCustomDate(selectedArticle.date)}</p>
           <p className="text-sm mt-2">Sport: {selectedArticle.sport.name}</p>
-          <p className="text-sm mt-2"> Teams: {selectedArticle.teams.map((team) => team.name).join(' vs ')}</p>
+          <p className="text-sm mt-2"> Teams: {selectedArticle.teams.map((team: { name: any; }) => team.name).join(' vs ')}</p>
           <p className="text-sm mt-4 text-gray-500">{selectedArticle.summary}</p>
           <p className="text-sm mt-4">{selectedArticle.content}</p>
           <div className="mt-4">

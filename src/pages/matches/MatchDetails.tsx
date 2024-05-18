@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useMatchDispatch, useMatchState } from '../../context/matches/context';
@@ -8,7 +9,7 @@ const MatchDetails: React.FC = () => {
   const matchState = useMatchState();
   const matchDispatch = useMatchDispatch();
   const { matchId } = useParams<{ matchId?: string }>() || {};
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (matchId) {
@@ -19,7 +20,8 @@ const MatchDetails: React.FC = () => {
     }
   }, [matchId, matchDispatch]);
 
-  const { selectedMatch } = matchState;
+  // Handle the case where matchState might be undefined
+  const { selectedMatch } = matchState || { selectedMatch: undefined };
 
   console.log("Selected Match:", selectedMatch);
 
@@ -32,26 +34,24 @@ const MatchDetails: React.FC = () => {
 
   const closeDialogAndNavigate = () => {
     setIsOpen(false);
-    Navigate('/account/dashboard'); // Navigate to the matches page
+    navigate('/account/dashboard'); // Navigate to the matches page
   };
+
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' };
-    const formattedDate = new Date(dateString).toLocaleDateString('en-US', options);
-    return formattedDate;
+    return new Date(dateString).toLocaleDateString('en-US', options);
   };
-  
+
   const formatTime = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: 'numeric', hour12: true };
-    const formattedTime = new Date(dateString).toLocaleTimeString('en-US', options);
-    return formattedTime;
+    return new Date(dateString).toLocaleTimeString('en-US', options);
   };
 
   return (
     <div>
       <Dialog open={isOpen} onClose={closeDialogAndNavigate} className="fixed inset-0 z-10 overflow-y-auto">
         <div className="min-h-screen px-4 text-center">
-        <Dialog.Panel className="fixed inset-0 bg-black opacity-30" />
-
+          <Dialog.Panel className="fixed inset-0 bg-black opacity-30" />
           <span className="inline-block h-screen align-middle" aria-hidden="true">
             &#8203;
           </span>
@@ -61,11 +61,11 @@ const MatchDetails: React.FC = () => {
             <p className="text-sm mt-2">Starts At: {formatDate(selectedMatch.startsAt)}, {formatTime(selectedMatch.startsAt)}</p>
             <p className="text-sm mt-2">Ends At: {formatDate(selectedMatch.endsAt)}, {formatTime(selectedMatch.endsAt)}</p>
             <p className="text-sm mt-2">Sport: {selectedMatch.sportName}</p>
-            <p className="text-sm mt-2">Teams: {selectedMatch.teams.map((team) => team.name).join(' vs ')}</p>
+            <p className="text-sm mt-2">Teams: {selectedMatch.teams.map((team: { name: any; }) => team.name).join(' vs ')}</p>
             <p className="text-sm mt-4 text-gray-500">Score:</p>
             <ul className="text-sm">
-              {selectedMatch && selectedMatch.score && Object.entries(selectedMatch.score).map(([team, score]) => (
-                <li key={team}>{team}: {score}</li>
+              {selectedMatch.score && Object.entries(selectedMatch.score).map(([team, score]) => (
+                <li key={team}>{team}: {String(score)}</li>
               ))}
             </ul>
             <p className="text-sm mt-4 text-gray-500">Story:</p>

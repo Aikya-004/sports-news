@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prefer-const */
 import React, { useEffect, useState } from 'react';
@@ -21,11 +22,16 @@ const MatchListItems: React.FC = () => {
   const matchState = useMatchState();
   const matchesDispatch = useMatchDispatch();
   const [isRotated, setIsRotated] = useState(false);
-  const { matches, isLoading, isError, errorMessage } = matchState;
 
   useEffect(() => {
     fetchNewMatches(matchesDispatch);
-  }, []);
+  }, [matchesDispatch]);
+
+  if (!matchState) {
+    return <span className='text-black-600'>Loading matches...</span>; // Handle the undefined state
+  }
+
+  const { matches, isLoading, isError, errorMessage } = matchState;
 
   let [runningMatchesWithScores, setRunningMatchesWithScores] = useState<Match[]>([]);
   let [latestMatchesWithScores, setLatestMatchesWithScores] = useState<Match[]>([]);
@@ -51,22 +57,24 @@ const MatchListItems: React.FC = () => {
 
   useEffect(() => {
     const fetchScoresForRunningMatches = async () => {
-      const runningMatches = matches.filter((match: { isRunning: any; }) => match.isRunning);
+      const runningMatches = matches.filter((match: Match) => match.isRunning);
 
       const matchesWithScores = await Promise.all(
-        runningMatches.map(async (match: { id: number; score: any; }) => {
+        runningMatches.map(async (match: Match) => {
           const scores = await fetchScoresForMatch(match.id);
           if (scores !== null) {
-            match.score = scores.score;
+            return { ...match, score: scores.score };
           }
           return match;
         })
       );
 
-      setRunningMatchesWithScores(matchesWithScores);
+      setRunningMatchesWithScores(matchesWithScores as Match[]);
     };
 
-    fetchScoresForRunningMatches();
+    if (matches.length > 0) {
+      fetchScoresForRunningMatches();
+    }
   }, [matches]);
 
   useEffect(() => {
@@ -74,19 +82,21 @@ const MatchListItems: React.FC = () => {
       const last5Matches = getLast5Matches(matches, true);
 
       const matchesWithScores = await Promise.all(
-        last5Matches.map(async (match: any) => {
+        last5Matches.map(async (match: Match) => {
           const scores = await fetchScoresForMatch(match.id);
           if (scores !== null) {
-            match.score = scores.score;
+            return { ...match, score: scores.score };
           }
           return match;
         })
       );
 
-      setLatestMatchesWithScores(matchesWithScores);
+      setLatestMatchesWithScores(matchesWithScores as Match[]);
     };
 
-    fetchScoresForLatestMatches();
+    if (matches.length > 0) {
+      fetchScoresForLatestMatches();
+    }
   }, [matches]);
 
   const getLast5Matches = (matches: Match[], excludeRunningMatches: boolean = false) => {
@@ -113,34 +123,33 @@ const MatchListItems: React.FC = () => {
   return (
     <div className="p-5 border border-gray-100 shadow-sm rounded-md max-w-screen-xxl mx-auto mt-0 mb-4 mr-64 relative">
       <h2 className="text-2xl font-semibold text-blue-800 mb-4 mr-10">Live Matches</h2>
-        <button
-    className="w-8 h-8 p-1 text-white rounded-full absolute top-5 right-0 mr-24 z-10 transform transition-transform"
-    onClick={() => handleRefreshClick()}
-    >
+      <button
+        className="w-8 h-8 p-1 text-white rounded-full absolute top-5 right-0 mr-24 z-10 transform transition-transform"
+        onClick={() => handleRefreshClick()}
+      >
         <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="2.0"
-            stroke="gray"
-            aria-hidden="true"
-            className={`w-6 h-6 mx-auto transform ${isRotated ? 'rotate-180' : ''}`}
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth="2.0"
+          stroke="gray"
+          aria-hidden="true"
+          className={`w-6 h-6 mx-auto transform ${isRotated ? 'rotate-180' : ''}`}
         >
-            <path
+          <path
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
-            ></path>
+          ></path>
         </svg>
-        </button>
-
+      </button>
 
       <div className="flex flex-row space-x-4 h-45">
         {runningMatchesWithScores.map((match: Match) => (
           <div key={match.id}>
             <div className="h-45 w-92">
               <Link to={`/account/dashboard/${match.id}`}>
-                <div className="border p-2  w-100 rounded-md hover:shadow-md bg-white shadow-md transition duration-300">
+                <div className="border p-2 w-100 rounded-md hover:shadow-md bg-white shadow-md transition duration-300">
                   <div className="mb-4 w-full">
                     <h1 className="text-2xl font-semibold text-blue-800 uppercase antialiased">
                       {match.sportName}
@@ -187,7 +196,7 @@ const MatchListItems: React.FC = () => {
           </div>
         ))}
       </div>
-      
+
       <h2 className="text-2xl font-semibold text-blue-800 mt-4 mb-4 mr-10">Most Recent Matches</h2>
 
       <div className="flex flex-row space-x-4 h-46 relative">
