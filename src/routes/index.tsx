@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 // import React from "react";
 // import { createBrowserRouter, Navigate } from "react-router-dom";
 
@@ -89,16 +90,20 @@
 // import React from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
+// Importing AccountLayout directly as it seems to be a layout component
 import AccountLayout from "../layout/account";
 // import ProtectedRoute from "./ProtectedRoute";
-import Dashboard from "../pages/dashboard"
-import Signin from "../pages/signin";
-import Signup from "../pages/signup";
-import Logout from "../pages/logout";
-import MatchDetails from "../pages/matches/MatchDetails";
-import Matches from "../pages/matches";
-import NewsDetails from "../pages/news/NewsDetails";
-import Notfound from "../pages/Notfound";
+import React from "react";
+
+// Lazy load the page components
+const Signin = React.lazy(() => import("../pages/signin"));
+const Signup = React.lazy(() => import("../pages/signup"));
+const Logout = React.lazy(() => import("../pages/logout"));
+const Dashboard = React.lazy(() => import("../pages/dashboard"));
+const MatchDetails = React.lazy(() => import("../pages/matches/MatchDetails"));
+const Matches = React.lazy(() => import("../pages/matches"));
+const NewsDetails = React.lazy(() => import("../pages/news/NewsDetails"));
+const Notfound = React.lazy(() => import("../pages/Notfound"));
 
 const router = createBrowserRouter([
   {
@@ -132,6 +137,7 @@ const router = createBrowserRouter([
         <AccountLayout />
      
     ),
+    ErrorBoundary: () => <>Failed to load the page</>,
     children: [
       { index: true, element: <Navigate to="/account/dashboard" replace /> },
       {

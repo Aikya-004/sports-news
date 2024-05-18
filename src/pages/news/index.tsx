@@ -1,5 +1,8 @@
-import React from 'react';
-import NewsList from './NewsList';
+import React, { Suspense } from 'react';
+import ErrorBoundary from '../../components/ErrorBoundary';
+
+// Lazy load the NewsList component
+const NewsList = React.lazy(() => import('./NewsList'));
 
 const News: React.FC = () => {
   return (
@@ -9,7 +12,11 @@ const News: React.FC = () => {
           News
         </h2>
       </div>
-      <NewsList />
+      <ErrorBoundary>
+        <Suspense fallback={<div className="suspense-loading">Loading News...</div>}>
+          <NewsList />
+        </Suspense>
+      </ErrorBoundary>
     </>
   );
 };

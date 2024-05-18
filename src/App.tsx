@@ -49,8 +49,8 @@
 // }
 
 // export default App;
-
-import  { useContext } from "react";
+import { Suspense, useContext } from "react";
+// import  { useContext } from "react";
 import { RouterProvider } from "react-router-dom";
 import { ThemeContext } from "./context/theme";
 
@@ -68,9 +68,9 @@ const App = () => {
         <NewsContextProvider>
           <SportsProvider>
           <TeamsProvider>
-     
+          <Suspense fallback={<>Loading...</>}>
           <RouterProvider router={router} />
-         
+          </Suspense>
       </TeamsProvider>
           </SportsProvider>
         </NewsContextProvider>
