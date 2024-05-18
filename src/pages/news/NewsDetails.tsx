@@ -18,7 +18,9 @@ const NewsDetails: React.FC = () => {
     }
   }, [articleId, newsDispatch]);
 
-  const { selectedArticle } = newsState;
+  const { selectedArticle } = newsState || { selectedArticle: undefined };
+
+  console.log("Selected Article:", selectedArticle);
   const [isOpen, setIsOpen] = useState(true);
 
   const closeDialogAndNavigate = () => {
