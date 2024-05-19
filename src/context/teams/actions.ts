@@ -2,7 +2,7 @@ import { API_ENDPOINT } from '../../config/constants';
 
 export const fetchTeams = async (dispatch: any) => {
   try {
-    dispatch({ type: "FETCH_TEAMS_REQUEST" });
+    dispatch({ type: 'FETCH_TEAMS_REQUEST' });
     const response = await fetch(`${API_ENDPOINT}/teams`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },

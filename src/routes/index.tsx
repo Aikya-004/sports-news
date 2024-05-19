@@ -51,12 +51,12 @@
 //     // ],
 //     children: [
 //         { index: true, element: <Navigate to="/account/dashboard" replace /> },
-        
+
 //         {
 //           path: "dashboard",
 //           element: <Dashboard />,
 //           children:[
-            
+
 //             {path:':matchId',
 //              element:<MatchDetails />},
 //             //  {
@@ -71,93 +71,86 @@
 //             // )
 //           ]
 //           },
-         
+
 //           ]
-        
+
 //         },
-        
-       
-        
+
 //         {
 //           path: "matches",
 //           element: <Matches />,
-  
+
 //         },
 //       ],
- 
 
 // export default router;
 // import React from "react";
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 // Importing AccountLayout directly as it seems to be a layout component
-import AccountLayout from "../layout/account";
+import AccountLayout from '../layout/account';
 // import ProtectedRoute from "./ProtectedRoute";
-import React from "react";
+import React from 'react';
 
 // Lazy load the page components
-const Signin = React.lazy(() => import("../pages/signin"));
-const Signup = React.lazy(() => import("../pages/signup"));
-const Logout = React.lazy(() => import("../pages/logout"));
-const Dashboard = React.lazy(() => import("../pages/dashboard"));
-const MatchDetails = React.lazy(() => import("../pages/matches/MatchDetails"));
-const Matches = React.lazy(() => import("../pages/matches"));
-const NewsDetails = React.lazy(() => import("../pages/news/NewsDetails"));
-const Notfound = React.lazy(() => import("../pages/Notfound"));
+const Signin = React.lazy(() => import('../pages/signin'));
+const Signup = React.lazy(() => import('../pages/signup'));
+const Logout = React.lazy(() => import('../pages/logout'));
+const Dashboard = React.lazy(() => import('../pages/dashboard'));
+const MatchDetails = React.lazy(() => import('../pages/matches/MatchDetails'));
+const Matches = React.lazy(() => import('../pages/matches'));
+const NewsDetails = React.lazy(() => import('../pages/news/NewsDetails'));
+const Notfound = React.lazy(() => import('../pages/Notfound'));
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Navigate to="/account/dashboard" replace />,
   },
   {
-    path: "/signin",
+    path: '/signin',
     element: <Signin />,
   },
   {
-    path: "/notfound",
+    path: '/notfound',
     element: <Notfound />,
   },
   {
-    path: "*",
+    path: '*',
     element: <Navigate to="/notfound" replace />,
   },
   {
-    path: "/signup",
+    path: '/signup',
     element: <Signup />,
   },
   {
-    path: "/logout",
+    path: '/logout',
     element: <Logout />,
   },
   {
-    path: "account",
-    element: (
-     
-        <AccountLayout />
-     
-    ),
+    path: 'account',
+    element: <AccountLayout />,
     ErrorBoundary: () => <>Failed to load the page</>,
     children: [
       { index: true, element: <Navigate to="/account/dashboard" replace /> },
       {
-        path: "dashboard",
+        path: 'dashboard',
         element: <Dashboard />,
         children: [
           {
-            path: ":matchId",
+            path: ':matchId',
             element: <MatchDetails />,
           },
           {
-            path: "articles/:articleId",
-            element:<NewsDetails />
+            path: 'articles/:articleId',
+            element: <NewsDetails />,
           },
         ],
       },
     ],
   },
   {
-    path: "matches",
+    path: 'matches',
     element: <Matches />,
   },
 ]);

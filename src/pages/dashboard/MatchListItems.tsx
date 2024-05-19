@@ -28,20 +28,26 @@ const MatchListItems: React.FC = () => {
   }, [matchesDispatch]);
 
   if (!matchState) {
-    return <span className='text-black-600'>Loading matches...</span>; // Handle the undefined state
+    return <span className="text-black-600">Loading matches...</span>; // Handle the undefined state
   }
 
   const { matches, isLoading, isError, errorMessage } = matchState;
 
-  let [runningMatchesWithScores, setRunningMatchesWithScores] = useState<Match[]>([]);
-  let [latestMatchesWithScores, setLatestMatchesWithScores] = useState<Match[]>([]);
+  let [runningMatchesWithScores, setRunningMatchesWithScores] = useState<
+    Match[]
+  >([]);
+  let [latestMatchesWithScores, setLatestMatchesWithScores] = useState<Match[]>(
+    []
+  );
 
   const handleRefreshClick = () => {
     setIsRotated(!isRotated);
     fetchNewMatches(matchesDispatch);
   };
 
-  const fetchScoresForMatch = async (matchId: number): Promise<Match | null> => {
+  const fetchScoresForMatch = async (
+    matchId: number
+  ): Promise<Match | null> => {
     try {
       const response = await fetch(`${API_ENDPOINT}/matches/${matchId}`);
       const matchData = await response.json();
@@ -99,21 +105,28 @@ const MatchListItems: React.FC = () => {
     }
   }, [matches]);
 
-  const getLast5Matches = (matches: Match[], excludeRunningMatches: boolean = false) => {
+  const getLast5Matches = (
+    matches: Match[],
+    excludeRunningMatches: boolean = false
+  ) => {
     // Filter out running matches if specified
-    const filteredMatches = excludeRunningMatches ? matches.filter(match => !match.isRunning) : matches;
-  
+    const filteredMatches = excludeRunningMatches
+      ? matches.filter((match) => !match.isRunning)
+      : matches;
+
     // Sort matches by date in descending order
-    const sortedMatches = filteredMatches.sort((a, b) => new Date(b.endsAt).getTime() - new Date(a.endsAt).getTime());
-  
+    const sortedMatches = filteredMatches.sort(
+      (a, b) => new Date(b.endsAt).getTime() - new Date(a.endsAt).getTime()
+    );
+
     // Get the last 5 matches
     const last5Matches = sortedMatches.slice(0, 5);
-  
+
     return last5Matches;
   };
 
   if (matches.length === 0 && isLoading) {
-    return <span className='text-black-600'>Loading matches...</span>;
+    return <span className="text-black-600">Loading matches...</span>;
   }
 
   if (isError) {
@@ -122,7 +135,9 @@ const MatchListItems: React.FC = () => {
 
   return (
     <div className="p-5 border border-gray-100 shadow-sm rounded-md max-w-screen-xxl mx-auto mt-0 mb-4 mr-64 relative">
-      <h2 className="text-2xl font-semibold text-blue-800 mb-4 mr-10">Live Matches</h2>
+      <h2 className="text-2xl font-semibold text-blue-800 mb-4 mr-10">
+        Live Matches
+      </h2>
       <button
         className="w-8 h-8 p-1 text-white rounded-full absolute top-5 right-0 mr-24 z-10 transform transition-transform"
         onClick={() => handleRefreshClick()}
@@ -161,11 +176,15 @@ const MatchListItems: React.FC = () => {
                     <div className="flex items-center space-x-4 mt-4 text-black">
                       <div className="text-lg font-semibold text-indigo-600 mr-16 text-left">
                         {match.teams[0].name}
-                        <div className="mt-4 text-left">{match.teams[1].name}</div>
+                        <div className="mt-4 text-left">
+                          {match.teams[1].name}
+                        </div>
                       </div>
                       <div className="text-lg font-bold text-green-600 text-right">
                         {match.score && match.score[match.teams[0].name]}
-                        <div className="mt-4">{match.score && match.score[match.teams[1].name]}</div>
+                        <div className="mt-4">
+                          {match.score && match.score[match.teams[1].name]}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -180,7 +199,11 @@ const MatchListItems: React.FC = () => {
                         aria-hidden="true"
                         className="w-6 h-6"
                       >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                        ></path>
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -197,7 +220,9 @@ const MatchListItems: React.FC = () => {
         ))}
       </div>
 
-      <h2 className="text-2xl font-semibold text-blue-800 mt-4 mb-4 mr-10">Most Recent Matches</h2>
+      <h2 className="text-2xl font-semibold text-blue-800 mt-4 mb-4 mr-10">
+        Most Recent Matches
+      </h2>
 
       <div className="flex flex-row space-x-4 h-46 relative">
         {latestMatchesWithScores.map((match: Match) => (
@@ -216,11 +241,15 @@ const MatchListItems: React.FC = () => {
                     <div className="flex items-center space-x-4 mt-4 text-black">
                       <div className="text-lg font-semibold text-indigo-600 mr-16 text-left">
                         {match.teams[0].name}
-                        <div className="mt-4 text-left">{match.teams[1].name}</div>
+                        <div className="mt-4 text-left">
+                          {match.teams[1].name}
+                        </div>
                       </div>
                       <div className="text-lg font-bold text-green-600 text-right">
                         {match.score && match.score[match.teams[0].name]}
-                        <div className="mt-4">{match.score && match.score[match.teams[1].name]}</div>
+                        <div className="mt-4">
+                          {match.score && match.score[match.teams[1].name]}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -235,7 +264,11 @@ const MatchListItems: React.FC = () => {
                         aria-hidden="true"
                         className="w-6 h-6"
                       >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                        ></path>
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"

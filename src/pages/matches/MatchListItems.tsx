@@ -8,15 +8,20 @@ const MatchListItems: React.FC = () => {
   const matchesDispatch = useMatchDispatch();
 
   // Conditional destructuring with default values
-  const { matches = [], isLoading = false, isError = false, errorMessage = '' } = matchesState || {};
+  const {
+    matches = [],
+    isLoading = false,
+    isError = false,
+    errorMessage = '',
+  } = matchesState || {};
   console.log(matches);
 
   useEffect(() => {
     fetchNewMatches(matchesDispatch);
   }, [matchesDispatch]);
 
-  console.log("Matchdispatch", matchesDispatch);
-  console.log("MatchState", matchesState);
+  console.log('Matchdispatch', matchesDispatch);
+  console.log('MatchState', matchesState);
 
   if (matches.length === 0 && isLoading) {
     return <span>Loading...</span>;
@@ -27,18 +32,32 @@ const MatchListItems: React.FC = () => {
   }
 
   return (
-    <div className='w-3/4'>
+    <div className="w-3/4">
       {matches.map((match: any) => (
-        <div key={match.id} className="w-full flex items-center mb-4 border border-gray-500 rounded p-2">
+        <div
+          key={match.id}
+          className="w-full flex items-center mb-4 border border-gray-500 rounded p-2"
+        >
           <div className="w-3/4">
-            <h2 className="text-xl font-bold text-gray-800 mb-2">{match.name}</h2>
+            <h2 className="text-xl font-bold text-gray-800 mb-2">
+              {match.name}
+            </h2>
             <p className="text-gray-600">{match.location}</p>
-            <p className="text-left text-gray-500 block mt-0">{new Date(match.endsAt).toLocaleDateString()}</p>
-            <a href={`/account/matches/${match.id}`} className="text-center text-blue-500 block mt-0">Read More</a>
+            <p className="text-left text-gray-500 block mt-0">
+              {new Date(match.endsAt).toLocaleDateString()}
+            </p>
+            <a
+              href={`/account/matches/${match.id}`}
+              className="text-center text-blue-500 block mt-0"
+            >
+              Read More
+            </a>
           </div>
           <div className="w-1/4">
             {match.teams.map((team: any) => (
-              <p key={team.id} className="text-gray-500 text-center">{team.name}</p>
+              <p key={team.id} className="text-gray-500 text-center">
+                {team.name}
+              </p>
             ))}
             <img src={match.thumbnail} alt={match.name} className="w-full" />
           </div>

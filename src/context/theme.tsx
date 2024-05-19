@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState } from 'react';
 
 interface ThemeContextProps {
   theme: string;
@@ -7,7 +7,7 @@ interface ThemeContextProps {
 
 const ThemeContext = createContext<ThemeContextProps>({
   theme: 'light',
-  setTheme: () => {}
+  setTheme: () => {},
 });
 
 const ThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
@@ -15,7 +15,7 @@ const ThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   const valueToShare = {
     theme,
-    setTheme
+    setTheme,
   };
 
   return (

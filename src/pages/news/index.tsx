@@ -13,7 +13,9 @@ const News: React.FC = () => {
         </h2>
       </div>
       <ErrorBoundary>
-        <Suspense fallback={<div className="suspense-loading">Loading News...</div>}>
+        <Suspense
+          fallback={<div className="suspense-loading">Loading News...</div>}
+        >
           <NewsList />
         </Suspense>
       </ErrorBoundary>

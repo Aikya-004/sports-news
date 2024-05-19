@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 const getStoredValue = <T>(key: string, defaultValue: T): T => {
   const savedItem = localStorage.getItem(key);
@@ -8,7 +8,7 @@ const getStoredValue = <T>(key: string, defaultValue: T): T => {
   return defaultValue;
 };
 
-export const useLocalStorage = <T,>(
+export const useLocalStorage = <T>(
   key: string,
   defaultValue: T
 ): [T, React.Dispatch<React.SetStateAction<T>>] => {

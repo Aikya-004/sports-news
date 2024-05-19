@@ -49,34 +49,35 @@
 // }
 
 // export default App;
-import { Suspense, useContext } from "react";
+import { Suspense, useContext } from 'react';
 // import  { useContext } from "react";
-import { RouterProvider } from "react-router-dom";
-import { ThemeContext } from "./context/theme";
+import { RouterProvider } from 'react-router-dom';
+import { ThemeContext } from './context/theme';
 
-import router from "./routes"
-import { MatchContextProvider } from "./context/matches/context";
-import { NewsContextProvider } from "./context/news/context";
-import { SportsProvider } from "./context/sports/context";
-import { TeamsProvider } from "./context/teams/context";
+import router from './routes';
+import { MatchContextProvider } from './context/matches/context';
+import { NewsContextProvider } from './context/news/context';
+import { SportsProvider } from './context/sports/context';
+import { TeamsProvider } from './context/teams/context';
 
 const App = () => {
   const { theme } = useContext(ThemeContext);
   return (
-    <div  className={`h-screen w-full mx-auto py-2 ${theme === "dark" ? "dark" : ""}`}>
- <MatchContextProvider>
+    <div
+      className={`h-screen w-full mx-auto py-2 ${theme === 'dark' ? 'dark' : ''}`}
+    >
+      <MatchContextProvider>
         <NewsContextProvider>
           <SportsProvider>
-          <TeamsProvider>
-          <Suspense fallback={<>Loading...</>}>
-          <RouterProvider router={router} />
-          </Suspense>
-      </TeamsProvider>
+            <TeamsProvider>
+              <Suspense fallback={<>Loading...</>}>
+                <RouterProvider router={router} />
+              </Suspense>
+            </TeamsProvider>
           </SportsProvider>
         </NewsContextProvider>
       </MatchContextProvider>
-      
     </div>
   );
-}
+};
 export default App;

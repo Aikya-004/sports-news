@@ -1,69 +1,68 @@
 /* eslint-disable no-empty-pattern */
-import {useState,useContext,Fragment,useEffect } from 'react'
-import { Disclosure, Menu, Transition,Switch } from '@headlessui/react'
-import { UserCircleIcon } from '@heroicons/react/24/outline'
+import { useState, useContext, Fragment, useEffect } from 'react';
+import { Disclosure, Menu, Transition, Switch } from '@headlessui/react';
+import { UserCircleIcon } from '@heroicons/react/24/outline';
 import Logo from '../../assets/images/logo.png';
-import { Link, useLocation } from "react-router-dom"
-import { ThemeContext } from "../../context/theme";
+import { Link, useLocation } from 'react-router-dom';
+import { ThemeContext } from '../../context/theme';
 // import React from 'react'
 // import { Switch } from 'react-router-dom'
 
 let userNavigation = [
   { name: 'Sign in', href: '/signin' },
   { name: 'Sign up', href: '/signup' },
-]
+];
 
-const classNames = (...classes: string[]): string => classes.filter(Boolean).join(' ');
+const classNames = (...classes: string[]): string =>
+  classes.filter(Boolean).join(' ');
 
 const Appbar = () => {
-    const { theme, setTheme } = useContext(ThemeContext)
-    const [enabled, setEnabled] = useState(theme === 'dark')
-    const { pathname } = useLocation()
-    const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('authToken'));
+  const { theme, setTheme } = useContext(ThemeContext);
+  const [enabled, setEnabled] = useState(theme === 'dark');
+  const { pathname } = useLocation();
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    !!localStorage.getItem('authToken')
+  );
 
-    useEffect(() => {
-      setIsAuthenticated(!!localStorage.getItem('authToken'));
-    }, []);
-  
-    if (isAuthenticated) {
-      userNavigation = [
-        { name: 'Profile', href: '#' },
-        { name: 'Sign out', href: '/logout' }
-      ];
+  useEffect(() => {
+    setIsAuthenticated(!!localStorage.getItem('authToken'));
+  }, []);
+
+  if (isAuthenticated) {
+    userNavigation = [
+      { name: 'Profile', href: '#' },
+      { name: 'Sign out', href: '/logout' },
+    ];
+  }
+  const toggleTheme = () => {
+    let newTheme = '';
+    if (theme === 'light') {
+      newTheme = 'dark';
+    } else {
+      newTheme = 'light';
     }
-    const toggleTheme = () => {
-        let newTheme = ''
-        if (theme === 'light') {
-          newTheme = 'dark'
-        } else {
-          newTheme = 'light'
-        }
-        setEnabled(!enabled)
-        setTheme(newTheme)
-      }
+    setEnabled(!enabled);
+    setTheme(newTheme);
+  };
   const navigation = [
     { name: 'Dashboard', href: '/account', current: false },
     // { name: 'Members', href: '/account/members', current: false },
-  ]
+  ];
 
   return (
     <>
       <Disclosure as="nav" className="border-b border-slate-200">
-        {({  }) => (
+        {({}) => (
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 items-center justify-between">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                    <img
-                    className="h-12 w-36"
-                    src={Logo}
-                    alt="Sports News"
-                  />
+                  <img className="h-12 w-36" src={Logo} alt="Sports News" />
                 </div>
                 <div className="hidden md:block">
                   <div className="ml-10 flex items-baseline space-x-4">
-                    {navigation.map((item) => { 
-                      const isCurrent = pathname.includes(item.href)
+                    {navigation.map((item) => {
+                      const isCurrent = pathname.includes(item.href);
 
                       return (
                         <Link
@@ -79,28 +78,37 @@ const Appbar = () => {
                         >
                           {item.name}
                         </Link>
-                    )})}
+                      );
+                    })}
                   </div>
                 </div>
               </div>
+              <div className="flex items-center justify-center flex-1">
+                <h1 className="text-xl font-bold text-blue-700">
+                  Sports News and Scores
+                </h1>
+              </div>
               <div className="hidden md:block">
                 <div className="ml-4 flex items-center md:ml-6">
-                <Switch
-                checked={enabled}
-                onChange={toggleTheme}
-                className={`${enabled ? 'bg-slate-400' : 'bg-slate-700'}
+                  <Switch
+                    checked={enabled}
+                    onChange={toggleTheme}
+                    className={`${enabled ? 'bg-slate-400' : 'bg-slate-700'}
                   relative inline-flex h-[24px] w-[100px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-              >
-                <span
-                  aria-hidden="true"
-                  className={`${enabled ? 'translate-x-9' : 'translate-x-0'}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className={`${enabled ? 'translate-x-9' : 'translate-x-0'}
                     pointer-events-none inline-block h-[16px] w-[16px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-                />
-              </Switch>
+                    />
+                  </Switch>
                   <Menu as="div" className="relative ml-3">
                     <div>
                       <Menu.Button className="rounded-full bg-white p-1 text-gray-400 hover:text-blue-600">
-                        <UserCircleIcon className="h-6 w-6" aria-hidden="true" />
+                        <UserCircleIcon
+                          className="h-6 w-6"
+                          aria-hidden="true"
+                        />
                       </Menu.Button>
                     </div>
                     <Transition
@@ -138,7 +146,7 @@ const Appbar = () => {
         )}
       </Disclosure>
     </>
-  )
-}
+  );
+};
 
 export default Appbar;
